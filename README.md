@@ -6,6 +6,13 @@ This smart contract depicts the Degen Game Token.
 
 - Still I was able to deploy it on Fuji testnet
 - Verify (https://43113.testnet.snowtrace.io/token/0x1bf972B7b7bEF9036628cE0bF0ca7AD42D6cD130) & (https://43113.testnet.snowtrace.io/token/0xc8F60e266016aE7f7cCEE1040cDa885862693D47)
+
+## The snowtrace Api key is paid now so, i verified the contract at sepolia testnet through etherscan api
+
+<img width="837" alt="image" src="https://github.com/PradeepSahhu/DegenGameToken-ERC20/assets/94203408/969ff41f-47d8-4e96-a6c7-1951595a4b92">
+
+Link To visit Verified Smart Contract : [https://sepolia.etherscan.io/address/0x01a5Cd1BE2b1732BBeB6AfC9c4B3c31874Fe07C8#code](https://sepolia.etherscan.io/address/0x4249056c7c5646A8660C1b65EB2546D90567Ae11#code)
+
 - I fully tested it on sepolia testnet with all the mentioned functionalities.
 
 <img width="1174" alt="image" src="https://github.com/PradeepSahhu/DegenGameToken-ERC20/assets/94203408/8db3a4c7-93d2-4a1b-af94-20805a61d716">
