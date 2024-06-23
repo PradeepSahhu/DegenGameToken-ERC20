@@ -48,14 +48,11 @@ contract DegenERC20 is ERC20{
     }
 
 
-    ///@notice redeeming the tokens for some a NFT 
-    function redeemTokens(uint _tokenAmount) external{
-        require(_tokenAmount == 1,"Game asset cost is only 1 token");
-        require(balanceOf(msg.sender) >= _tokenAmount);
-        _transfer(msg.sender, owner, _tokenAmount);
+    ///@notice redeeming one token for a NFT 
+    function redeemTokens() external{
+        require(balanceOf(msg.sender) >= 1);
+        _transfer(msg.sender, address(this), 1);
         gameAsset.safeMint(msg.sender);
-
-      
     }
 
 
@@ -64,6 +61,12 @@ contract DegenERC20 is ERC20{
     function burnToken(uint _tokenAmount) external {
         require( balanceOf(msg.sender)>=_tokenAmount);
         _burn(msg.sender, _tokenAmount);
+    }
+
+
+    ///@notice to withdraw all tokens
+    function withdraw() external onlyOwner{
+          _transfer(address(this), owner, balanceOf(address(this)));
     }
 
     // ///@notice to receive wei/ethers from external sources like other account
