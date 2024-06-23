@@ -2,15 +2,12 @@
 
 This smart contract depicts the Degen Game Token.
 
-## Due to Limited Fuji Faucet i can't fully test it on Fuji network however i tested it on Sepolia testnet.
+## Fully Tested and Executed on Fuji Testnet
 
-- Still I was able to deploy it on Fuji testnet
 
-- I fully tested it on sepolia testnet with all the mentioned functionalities.
+<img width="783" alt="image" src="https://github.com/PradeepSahhu/DegenGameToken-ERC20/assets/94203408/0c01524a-a5ec-4f0d-87a8-9a9c14fed9e6">
 
-<img width="1174" alt="image" src="https://github.com/PradeepSahhu/DegenGameToken-ERC20/assets/94203408/8db3a4c7-93d2-4a1b-af94-20805a61d716">
-
-- Verify (https://43113.testnet.snowtrace.io/token/0x1bf972B7b7bEF9036628cE0bF0ca7AD42D6cD130) & (https://43113.testnet.snowtrace.io/token/0xc8F60e266016aE7f7cCEE1040cDa885862693D47)
+## verify from [Click Here to Verfity in Snowtrace](https://testnet.snowtrace.io/token/0x8182810F920E7D0ad3600d132066f5249EaCd46A?chainId=43113)
 
 ## The snowtrace Api key is paid now so, i verified the contract at sepolia testnet through etherscan api
 
@@ -27,20 +24,19 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 Importing the OpenZeppelin ERC20 Contract and inheriting it to my contract using `is` keyword.
 
-Using the constructor initlializing the owner state variable and value of Each Token such that later it can be redeem by anyone for fixed amount of wei in return. and minting some token
-for this contract as well.
+Using the constructor initlializing the owner state variable and minting some token for the owner.
 
 ```Solidity
- constructor(uint _amount, uint _tokenToMint) ERC20("Degen","DGN"){
+  constructor(uint _tokenToMint) ERC20("Degen","DGN"){
         owner = msg.sender;
-        tokenValueInWei = _amount;
-        _mint(msg.sender, _tokenToMint); // very small amount because it takes high gas fees
-    }
+        gameAsset = new GameAsset();
+        _mint(msg.sender, _tokenToMint); // very small amount because it takes high gas fees 
+    } 
 ```
 
 Minting the reward Token for another account ( its like giving the reward in the form of Tokens)
 
-- I am not minning and transfering tokens because to save the transaction cost.
+- I am not minning but transfering tokens because to save the transaction cost.
 
 ```Solidity
 
@@ -76,19 +72,17 @@ function tranferTokens(address _recepient, uint _amount) external{
     }
 ```
 
-Redeeming some tokens for some game asset in the game however in this scenerio redeeming the token for some amount of wei set by the owner.
+Redeeming one tokens for one NFT (Game Asset NFT).
 
 ```Solidity
 
- ///@notice redeeming the tokens for some items of the game (in this game for wei)
-
-    function redeemTokens(uint _tokenAmount) external payable{
-        require(balanceOf(msg.sender) >= _tokenAmount);
-        _transfer(msg.sender, owner, _tokenAmount);
-       uint valueWei = _tokenAmount * tokenValueInWei;
-        (bool callMsg,) = payable(msg.sender).call{value: valueWei}("");
-        require(callMsg);
+   ///@notice redeeming one token for a NFT 
+    function redeemTokens() external{
+        require(balanceOf(msg.sender) >= 1);
+        _transfer(msg.sender, address(this), 1);
+        gameAsset.safeMint(msg.sender);
     }
+
 ```
 
 Burning the game assets or Degen Game tokens.
@@ -104,3 +98,14 @@ Burning the game assets or Degen Game tokens.
     }
 
 ```
+
+In case of emergency the owner the withdraw all the tokens from the contract through withdraw function.
+
+```Solidity
+///@notice to withdraw all tokens
+    function withdraw() external onlyOwner{
+          _transfer(address(this), owner, balanceOf(address(this)));
+    }
+```
+
+Author : Pradeep Sahu
