@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.10;
-
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "./gameAsset.sol";
 
 contract DegenERC20 is ERC20{
 
@@ -13,16 +13,16 @@ contract DegenERC20 is ERC20{
     }
 
     address private immutable owner;
-    uint private immutable tokenValueInWei;
+    uint private CountToken;
+    GameAsset immutable gameAsset;
 
 
 
-    constructor(uint _amount, uint _tokenToMint) ERC20("Degen","DGN"){
+    constructor(uint _tokenToMint) ERC20("Degen","DGN"){
         owner = msg.sender;
-        tokenValueInWei = _amount;
+        gameAsset = new GameAsset();
         _mint(msg.sender, _tokenToMint); // very small amount because it takes high gas fees 
     }   
-
 
     ///@notice to reward a certain user by _amount amount only callable by the owner.
 
@@ -48,15 +48,16 @@ contract DegenERC20 is ERC20{
     }
 
 
-    ///@notice redeeming the tokens for some items of the game (in this game for wei)
-
-    function redeemTokens(uint _tokenAmount) external payable{
+    ///@notice redeeming the tokens for some a NFT 
+    function redeemTokens(uint _tokenAmount) external{
+        require(_tokenAmount == 1,"Game asset cost is only 1 token");
         require(balanceOf(msg.sender) >= _tokenAmount);
         _transfer(msg.sender, owner, _tokenAmount);
-       uint valueWei = _tokenAmount * tokenValueInWei;
-        (bool callMsg,) = payable(msg.sender).call{value: valueWei}("");
-        require(callMsg);
+        gameAsset.safeMint(msg.sender);
+
+      
     }
+
 
     ///@notice burn the _tokenAmount amount of token
 
@@ -65,7 +66,13 @@ contract DegenERC20 is ERC20{
         _burn(msg.sender, _tokenAmount);
     }
 
-    ///@notice to receive wei/ethers from external sources like other account
+    // ///@notice to receive wei/ethers from external sources like other account
 
     receive() external payable { }
 }
+
+
+
+
+
+
