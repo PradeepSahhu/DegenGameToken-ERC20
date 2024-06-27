@@ -1,4 +1,6 @@
 # DegenToken Game using ERC20 from openzeppelin
+![Avalanche](https://img.shields.io/badge/Avalanche-Fuji_Network-red.svg)
+![Avalanche](https://img.shields.io/badge/Avalanche-Fuji_Network-red.svg)
 
 This smart contract depicts the Degen Game Token.
 
