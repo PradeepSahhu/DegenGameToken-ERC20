@@ -13,7 +13,7 @@ contract GameAsset is ERC721 {
     {}
 
     function _baseURI() internal pure override returns (string memory) {
-        return "https://gateway.pinata.cloud/ipfs/QmXNwk53nqQoXYGuHDiH73s5u6eaAnZE1v8AGdjrefqG9t";
+        return "https://ipfs.io/ipfs/QmUKHAfQqRsNDdyAtgKkQtkk5atn7t9nuGSpaZ4wh4vcdh";
     }
 
     function safeMint(address to) public {
